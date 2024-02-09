@@ -1,0 +1,36 @@
+﻿@page "/"
+@using Parking_Lot.Models;
+
+<PageTitle>Welcome to our <b>Parking Lot!</b></PageTitle>
+
+<h3> Add a new User </h3>
+
+<EditForm Model="@newUser" OnValidSubmit="SubmitForm">
+    <label>License Number</label>
+    <InputText @bind-Value="newUser.LicensePlate"></InputText>
+    <br />
+
+    <label>Car Type</label>
+    <InputText @bind-Value="newUser.CarType"></InputText>
+    <br />
+
+    <label>Start Time</label>
+    <InputDate Type="InputDateType.Time" @bind-Value="newUser.Time"></InputDate>
+    <br />
+
+    <label>Start Date</label>
+    <InputDate @bind-Value="newUser.Date"></InputDate>
+    <br />
+
+    <button type="submit"> Submit </button>
+</EditForm>
+
+@inject Data.AppDbContext dbContext
+@code {
+    public User newUser = new User();
+
+    private async Task SubmitForm() {
+        dbContext.User.Add(newUser);
+        await dbContext.SaveChangesAsync();
+    }
+}
